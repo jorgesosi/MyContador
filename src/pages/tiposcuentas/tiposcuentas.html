@@ -1,0 +1,47 @@
+
+<ion-header>
+    <ion-navbar color = "primary">
+        <ion-buttons left>
+            <button ion-button ion-only menuToggle>
+              <ion-icon name = "menu"></ion-icon>
+            </button>
+        </ion-buttons>
+     <ion-title>
+     Tipos de cuentas 
+     </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+ 
+  <ion-item *ngFor="let item of items">
+     <h2>{{ item.id}} {{ item.nombre }} {{ item.descripcion}} </h2>
+     <button 
+        ion-button 
+        color="primary" 
+        item-right
+        (click)="viewEntry({ record: item })">
+        <ion-icon name="create" md="md-create"></ion-icon>
+        
+      </button>
+      <button 
+      ion-button 
+      item-right
+      color="danger"
+      (click)="deleteEntry({ record: item })"
+      ><ion-icon name="trash" md="md-trash"></ion-icon></button>
+  </ion-item>
+  <ion-item>
+    <button 
+       class="add"
+       ion-button 
+       item-right
+       icon-right
+       margin-bottom
+       color="secondary"
+       (click)="addEntry()">
+          <ion-icon name="person-add"></ion-icon>
+    </button>
+ </ion-item>
+
+</ion-content>

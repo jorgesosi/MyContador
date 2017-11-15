@@ -1,0 +1,29 @@
+<ion-menu [content]="contenido"(ionOpen)="menuOpened()">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <ion-list>
+        <button ion-item *ngIf="conectado" (click)="irPagina(tabspage)">Inicio </button>
+        <button ion-item *ngIf="!conectado" (click)="irPagina(iniciarsesion)"> Iniciar sesion</button>
+        <!--<button ion-item  (click)="irPagina(bancos)">Bancos </button>
+        <button ion-item  (click)="irPagina(cuentas)"> Cuentas</button>
+        <button ion-item  (click)="irPagina(usuarios)">Usuarios </button>
+        <button ion-item  (click)="irPagina(hogares)"> Hogares</button>-->
+        <button ion-item *ngIf="conectado" (click)="cerrarSesion()">Terminar sesion</button> 
+  <!--
+      <button ion-item *ngIf="usuarioEstaConectado" (click)="irPagina(homepage)">Inicio </button>
+        <button ion-item *ngIf="!usuarioEstaConectado" (click)="irPagina(iniciarsesion)"> Iniciar sesion</button>
+        <button ion-item *ngIf="usuarioEstaConectado" (click)="cerrarSesion()">Terminar sesion</button>
+  
+
+  -->
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+  
+  <ion-nav #contenido [root]="rootPage"></ion-nav>
+
+<!-- <ion-nav [root]="rootPage"></ion-nav>-->

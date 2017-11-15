@@ -1,0 +1,55 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-buttons left> 
+        <button ion-button ion-only *ngIf="tipo == 'portal'"(click)="volver()">  
+          <ion-icon md="md-arrow-round-back"></ion-icon>
+        </button>
+      </ion-buttons>
+  <ion-title>Cuentas</ion-title>
+</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+ 
+  <ion-item *ngFor="let item of items">
+     <h2>{{ item.id}} {{ item.nombre }} {{ item.numero}} 
+       {{item.idHogares}} {{item.idCuentasTipo}}
+     </h2>
+     <button 
+     ion-button 
+     color="primary" 
+     item-right
+     (click)="movimientos(item.idHogares )">
+     <ion-icon name="movimiento" md="md-git-compare"></ion-icon>
+     
+   </button>
+     <button 
+        ion-button 
+        color="primary" 
+        item-right
+        (click)="viewEntry({ record: item })">
+        <ion-icon name="create" md="md-create"></ion-icon>
+        
+      </button>
+      <button 
+      ion-button 
+      item-right
+      color="danger"
+      (click)="deleteEntry({ record: item })"
+      ><ion-icon name="trash" md="md-trash"></ion-icon></button>
+  </ion-item>
+  <ion-item>
+    <button 
+       class="add"
+       ion-button 
+       item-right
+       icon-right
+       margin-bottom
+       color="secondary"
+       (click)="addEntry()">
+          <ion-icon name="person-add"></ion-icon>
+    </button>
+ </ion-item>
+
+</ion-content>

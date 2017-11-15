@@ -1,0 +1,47 @@
+
+<ion-header>
+  <ion-navbar color = "primary">
+      <ion-buttons left>
+          <button ion-button ion-only menuToggle>
+            <ion-icon name = "menu"></ion-icon>
+          </button>
+      </ion-buttons>
+     <ion-title>
+        Home 
+     </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+   <ion-item *ngFor="let item of clasUser">
+      Bienvenido {{item.nombre}}
+      
+     <h2>Esta pagina se encuentra en construcción</h2>
+     <H2>no tengo idea que voy a mostrar todavia</H2>
+     Bienvenido 
+  </ion-item>
+  <ion-item *ngFor="let x of items">
+    <h2> {{ x.nombre }} </h2>
+    <button 
+    ion-button 
+    color="primary" 
+    item-right
+    (click)="seleccionar( x.id )">
+    <ion-icon name="Seleccionar" md="md-create"></ion-icon>
+    
+  </button>
+  </ion-item>
+  <ion-item>
+    <button 
+       class="add"
+       ion-button 
+       item-right
+       icon-right
+       margin-bottom
+       color="secondary"
+       (click)="addEntry()">
+          <ion-icon name="person-add"></ion-icon>
+    </button>
+ </ion-item>
+
+</ion-content>

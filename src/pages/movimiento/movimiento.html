@@ -1,0 +1,125 @@
+<ion-header>
+
+  <ion-navbar color = "primary">
+    
+    <ion-buttons left> 
+        <button ion-button ion-only menuToggle>
+            <ion-icon name = "menu"></ion-icon>
+          </button>
+      <button ion-button ion-only *ngIf="tipo == 'portal'"(click)="volver()">   
+        <ion-icon md="md-arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>movimiento</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div>
+    <div *ngIf="hideForm">
+      <ion-item class="post-entry-message" text-wrap>
+        <h2>Success!</h2>
+        <p>Maybe you'd like to edit an existing entry or add a new record?</p>
+        <p>Simply go back to the home page and select the option you want to pursue.</p>
+      </ion-item>
+    </div>
+    <div *ngIf="!hideForm">
+      <form [formGroup]="form" (ngSubmit)="saveEntry()">
+        <ion-list>
+          <ion-item-group>
+            <ion-item>
+              <ion-label color="dark">Fecha</ion-label>              
+              <ion-input type="text" placeholder="fecha..." 
+                  formControlName="fecha"[(ngModel)]="movimientoFecha">
+              </ion-input>
+            </ion-item>
+          </ion-item-group>
+          <ion-item-group>
+            <ion-item>
+              <ion-label color="dark">Importe</ion-label>
+              <ion-input type="text" placeholder="importe..." 
+                    formControlName="importe" [(ngModel)]="movimientoImporte">
+              </ion-input>
+            </ion-item>
+          </ion-item-group>
+            
+          <!--<ion-item-group>
+            <ion-item>
+              <ion-label color="dark">IdBanco</ion-label>
+              <ion-input type="number" placeholder="banco..." 
+                  formControlName="idBancos" [(ngModel)]="cuentaIdBanco"></ion-input>
+            </ion-item>
+          </ion-item-group>-->
+          
+          <!-- <ion-item-group>
+            <ion-item>
+                <ion-label>Banco</ion-label> 
+              <ion-select formControlName="banco" [(ngModel)]="cuentaBanco" >
+                <ion-option *ngFor="let banco of bancos"  ng-value="banco.idBancos" ng-checked="item.idBancos == banco.idBancos " >{{banco.nombre}}</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-item-group>-->
+          
+         <!-- <ion-item-group>
+            <ion-item>
+              <ion-label color="dark">IdUsuario</ion-label>
+              <ion-input type="number" placeholder="usuario..." 
+                    formControlName="idUsuarios" [(ngModel)]="cuentaIdUsuario">
+              </ion-input>
+            </ion-item>
+            </ion-item-group>-->
+            
+            <!--<ion-item-group>
+              <ion-item>
+                <ion-label color="dark">IdCuentasTipo</ion-label>
+                <ion-input type="number" placeholder="tipo cuenta..." 
+                        formControlName="idCuentasTipo" [(ngModel)]="cuentasIdCuentasTipo">
+                </ion-input>
+              </ion-item>
+            </ion-item-group>-->
+            <ion-item-group>
+              <ion-item>
+                  <ion-label>Cuenta</ion-label> 
+                <ion-select formControlName="idCuentasTipo" [compareWith]="compareCuenta" [(ngModel)]="idCuentas" interface="popover" ><!--[compareWith]="compareCuenta" -->
+                  <ion-option  *ngFor="let item of cuenta" [value]="item.id">{{item.nombre}}</ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-item-group>
+            <ion-item-group>
+              <ion-item>
+                  <ion-label>Movimiento</ion-label> 
+                <ion-select formControlName="idMovimientosTipo" [compareWith]="compareMovimiento" [(ngModel)]="idMovimientosTipo" interface="popover" ><!--[compareWith]="compareMovimiento" -->
+                  <ion-option  *ngFor="let item of tipoMovimiento" [value]="item.id">{{item.nombre}}</ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-item-group>
+
+            <ion-item-group>
+              <ion-item-divider color="light">descripcion *</ion-item-divider>
+              <ion-item>
+                <ion-textarea placeholder="descripcion..." formControlName="descripcion" 
+                      rows="2" [(ngModel)]="movimientoDescripcion "></ion-textarea>
+              </ion-item>
+            </ion-item-group>
+
+            <ion-item>
+              <button ion-button color="primary" 
+                  text-center block 
+                  [disabled]="!form.valid">Save Entry</button>
+          </ion-item>
+        </ion-list>
+      </form>
+      </div>
+      <ion-item *ngIf="isEdited && !hideForm">
+      <button 
+         ion-button 
+         item-right
+         color="secondary" 
+         text-center 
+         block 
+         (click)="deleteEntry()">Remove this Entry?</button>
+      </ion-item>
+  </div>
+</ion-content>
