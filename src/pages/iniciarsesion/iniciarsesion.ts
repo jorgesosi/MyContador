@@ -3,14 +3,11 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { HomePage } from '../home/home';
 import { TabsPage } from '../tabs/tabs';
-
 import 'rxjs/add/operator/map';
 import { Observable }     from 'rxjs/Observable';
 import { Http, Headers, RequestOptions } from '@angular/http';
-
 import { Usuario } from '../../clases/usuario';
 import { AutenticarUsuario } from './../../providers/autenticar-usuario';
-
 //import { IniciarsesionPage } from './iniciarsesion';
 @Component({
   selector: 'page-iniciarsesion',
@@ -27,14 +24,12 @@ export class IniciarsesionPage {
   public usuarioEmail          : any;
   public usuarioContrasenia     :any;
   private baseURI               : string  = "http://localhost/Contador/";
-  
   constructor(public navCtrl    : NavController,
               public http       : Http,
               public navParams  : NavParams,
               public fb         : FormBuilder,
               public toastCtrl  : ToastController,
               public autenticarUsuario: AutenticarUsuario) {
-  
     this.form = fb.group({                  
      // "email"                   : ["",Validators.required],//
      "email"                   : ["",Validators.compose([
@@ -48,12 +43,8 @@ export class IniciarsesionPage {
                                       Validators.minLength(5),
                                       Validators.pattern('^[a-zA-Z0-9]+$'),
                                       Validators.required])]//Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
-     
-        
-        
     });
   }
-
   ionViewWillEnter() {
     //this.load();
     console.log('ionViewWillEnter Iniciarsesion');
@@ -61,23 +52,19 @@ export class IniciarsesionPage {
   registrarUsuario(){
     this.navCtrl.push('UsuarioPage');
   }
-  
-  selectEntry(item){
+   selectEntry(item){
      this.usuarioEmail         = item.email;
      this.usuarioContrasenia    =item.contrasenia;     
   }
-  
   resetFields() : void  {
      this.usuarioEmail            = "";
      this.usuarioContrasenia      = "";
   }
-  
   iniciar(){
     let email       : string   =this.form.controls["email"].value,
         contrasenia : string   =this.form.controls["contrasenia"].value;
     this.iniciarSesion(email, contrasenia);
   }
-
   iniciarSesion(email, contrasenia){
   /* this.promiseUsuario = this.autenticarUsuario.iniciarSesion(email, contrasenia)
    this.promiseUsuario.then(
@@ -86,15 +73,13 @@ export class IniciarsesionPage {
      console.log("usuar",usuar[0]);
      console.log("iniciar",this.usuario[0]);}
    );
-
    console.log("fuera",this.usuario);*/
     let body    : string = "key=iniciar&email=" + email + "&contrasenia="+ contrasenia,
     type        : string = "application/x-www-form-urlencoded; charset=UTF-8",
     headers     : any     = new Headers({ 'Content-Type': type}),
     options     : any     = new RequestOptions({ headers: headers }),
     url         : any     = this.baseURI + "iniciar.php";
-      
-    this.http.post(url, body, options)
+   this.http.post(url, body, options)
     .map(res => res.json())
     .subscribe(data =>
       {
@@ -125,7 +110,6 @@ export class IniciarsesionPage {
        console.log("get",data)         
     });*/
   }
-  
   sendNotification(message)  : void{
     let notification = this.toastCtrl.create({
          message       : message,
@@ -133,5 +117,4 @@ export class IniciarsesionPage {
     });
     notification.present();
   }
-
 }

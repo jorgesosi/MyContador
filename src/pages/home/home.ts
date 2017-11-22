@@ -2,20 +2,17 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, IonicModule, ViewController, ModalController } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map'; 
-
 import { Usuario } from './../../clases/usuario';
 import { AutenticarUsuario } from './../../providers/autenticar-usuario';
 import { MovimientosPage } from '../movimientos/movimientos';
 import { MovimientoPage } from '../movimiento/movimiento';
 import { CuentasPage } from './../cuentas/cuentas';
 import { HogarPage } from '../hogar/hogar';
-
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
-
   public  usuario:Usuario;
   private baseURI               : string  = "http://localhost/Contador/";
   idUsuario
@@ -33,7 +30,6 @@ export class HomePage {
     this.tabBarElement= document.querySelector(".tabbar.show-tabbar");
     //console.log("tabbar",this.tabBarElement)
    }
-
 ionViewDidLoad()
    //ionViewWillEnter()
    {
@@ -48,7 +44,6 @@ ionViewDidLoad()
    }
    //ionViewWillEnter() { this.tabBarElement.style.display = 'none'; } 
    //ionViewWillLeave() { this.tabBarElement.style.display = 'flex'; }
-
    // Retrieve the JSON encoded data from the remote server
    // Using Angular's Http class and an Observable - then
    // assign this to the items array for rendering to the HTML template
@@ -70,11 +65,7 @@ this.http.post(url, body, options)
        //console.log("data home",data) ;       
     });
  }
-
-   
-
-
-   // Allow navigation to the AddTechnology page for creating a new entry
+  // Allow navigation to the AddTechnology page for creating a new entry
    addEntry()
    {
       //this.navCtrl.push('HogarPage');
@@ -82,8 +73,6 @@ this.http.post(url, body, options)
         HogarPage);
       modal.present();
    }
-
-
    // Allow navigation to the AddTechnology page for amending an existing entry
    // (We supply the actual record to be amended, as this method's parameter, 
    // to the AddTechnology page
@@ -103,5 +92,4 @@ this.http.post(url, body, options)
       });
       modal.present();
    }
-
 }

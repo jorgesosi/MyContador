@@ -1,0 +1,213 @@
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import 'rxjs/add/operator/map';
+
+import { CuentasPage } from './../cuentas/cuentas';
+@IonicPage()
+@Component({
+  selector: 'page-cuenta',
+  templateUrl: 'cuenta.html',
+})
+export class CuentaPage {
+public bancos: any = [];
+  // Define FormBuilder  se declaran las variables del formulario en html
+public form                  : FormGroup;
+// campos a cargar desde y hacia la base de datos
+public cuentaNombre        : any;
+public cuentaNumero        : any;
+public cuentaDescripcion   : any;
+public cuentaIdBanco        :any;
+//public cuentaBanco          :any;
+public cuentaIdUsuario      :any;
+public cuentasIdCuentasTipo :any;
+// Flag para indicar si es nuevo  o edicion de datos
+public isEdited               : boolean = false;
+// Flag para mostrar u ocultar el formulario
+public hideForm               : boolean = false;
+// titulo de la pagina a mostrear
+public pageTitle              : string;
+// lee el id de la tabla
+public recordID               : any      = null;
+// base de la direccion donde se encuentral los archivos PHP
+private baseURI               : string  = "http://localhost/Contador/";
+ 
+// Initialise module classes
+constructor(public navCtrl    : NavController,
+            public http       : Http,
+            public NP         : NavParams,
+            public fb         : FormBuilder,
+            public toastCtrl  : ToastController) 
+{
+
+   // se crean las validaciones de los campos del formulario en el Html
+   this.form = fb.group({
+      "nombre"                  : ["", Validators.required],
+      "descripcion"             :[""],
+      "numero"                  : ["", Validators.required],
+      "banco"                   :[""],
+      "idBancos"                :["", Validators.required],
+      "idUsuarios"               :["", Validators.required],
+      "idCuentasTipo"           :["", Validators.required]
+   });
+}
+// limpia los campos y determina si se edita o se crea registro
+ionViewWillEnter()
+{
+   this.resetFields();
+   this.load();
+   if(this.NP.get("record"))
+   {
+      this.isEdited      = true;
+      this.selectEntry(this.NP.get("record"));
+      this.pageTitle     = 'Editar Cuenta';
+   }
+   else
+   {
+      this.isEdited      = false;
+      this.pageTitle     = 'Crear Cuenta';
+   }
+}
+// se cargan los datos para llenar los campos en caso de listado de reistros
+selectEntry(item)
+{
+   this.cuentaNombre        = item.nombre
+   this.cuentaDescripcion   = item.descripcion;
+   this.cuentaNumero        = item.numero;
+   this.recordID            = item.id;
+   this.cuentaIdBanco       = item.idBancos;
+   //this.cuentaBanco         = item.idBancos;
+   this.cuentaIdUsuario     = item.idUsuarios;
+   this.cuentasIdCuentasTipo= item.idCuentasTipo;
+   console.log("2"  ,this.cuentaIdBanco, item.idBancos);
+}
+// crea un registro, envia los datos al archiivo  php 
+createEntry(nombre, numero, descripcion, idUsuarios, idBancos,idCuentasTipo)
+{
+   let body     : string   = "key=create&nombre=" + nombre + "&descripcion=" + descripcion + "&numero=" + numero + "&idUsuarios" + idUsuarios + "&idBancos" + idBancos + "&idCuentasTipo" + idCuentasTipo,
+       type     : string   = "application/x-www-form-urlencoded; charset=UTF-8",
+       headers  : any      = new Headers({ 'Content-Type': type}),
+       options  : any      = new RequestOptions({ headers: headers }),
+       url      : any      = this.baseURI + "crear-cuenta.php";
+
+   this.http.post(url, body, options)
+   .subscribe((data) =>
+   {
+      // confirma si se conecto con la base de datos
+      if(data.status === 200)
+      {
+         //this.hideForm   = true;
+         this.sendNotification(`el nombre: ${nombre} fue agregado`);
+         this.navCtrl.push(CuentasPage);
+      }
+      // si existe algun problema
+      else
+      {
+         this.sendNotification('Something went wrong!');
+         this.navCtrl.push(CuentasPage);
+      }
+   });
+}
+// edita el registro enviado la info por post
+updateEntry(nombre,numero, descripcion, idBancos)
+{
+   let body       : string = "key=update&nombre=" + nombre + "&descripcion=" + descripcion + "&numero=" + numero + "&id=" + this.recordID + "&idBancos" +idBancos,
+       type       : string = "application/x-www-form-urlencoded; charset=UTF-8",
+       headers    : any     = new Headers({ 'Content-Type': type}),
+       options    : any     = new RequestOptions({ headers: headers }),
+       url        : any     = this.baseURI + "editar-cuenta.php";
+
+   this.http.post(url, body, options)
+   .subscribe(data =>
+   {
+   if(data.status === 200)
+      {
+         //this.hideForm  =  true;
+         this.sendNotification(`Congratulations the technology: ${this.recordID} was successfully updated`);
+         this.navCtrl.push(CuentasPage);
+      }
+      else
+      {
+         this.sendNotification('Something went wrong!');
+         this.navCtrl.push(CuentasPage);
+      }
+   });
+}
+// elimina registre enviado el id 
+deleteEntry()
+{
+   let nombre     : string   = this.form.controls["nombre"].value,
+       body       : string   = "key=delete&id=" + this.recordID,
+       type       : string   = "application/x-www-form-urlencoded; charset=UTF-8",
+       headers    : any      = new Headers({ 'Content-Type': type}),
+       options    : any      = new RequestOptions({ headers: headers }),
+       url        : any      = this.baseURI + "eliminar-cuenta.php";
+
+ this.http.post(url, body, options)
+   .subscribe(data =>
+ {
+     if(data.status === 200)
+      {
+         //this.hideForm     = true;
+         this.sendNotification(`Congratulations the technology: ${this.recordID} was successfully deleted`);
+         this.navCtrl.push(CuentasPage);
+     }
+     else
+     {
+         this.sendNotification('Something went wrong!');
+         this.navCtrl.push(CuentasPage);
+     }
+ });
+}
+// guarda los registros, manejando si son nuevos o editados
+saveEntry()
+{
+   let nombre       : string    = this.form.controls["nombre"].value,
+        numero      : string    = this.form.controls["numero"].value,
+       descripcion  : string    = this.form.controls["descripcion"].value,
+       idUsuarios   : string    = this.form.controls["idUsuarios"].value,
+        idBancos    : string   = this.form.controls["idBancos"].value,
+        idCuentasTipo: string    = this.form.controls["idCuentasTipo"].value;
+        console.log("4",this.form.controls["idBancos"].value);
+   if(this.isEdited)
+   {
+      this.updateEntry(nombre,numero, descripcion, idBancos);
+   }
+   else
+   {
+      this.createEntry(nombre, numero, descripcion, idUsuarios, idBancos,idCuentasTipo);
+   }
+}
+// limpia los campos del formulario
+resetFields() : void
+{
+   this.cuentaNombre           = "";
+  this.cuentaNumero         ="";
+   this.cuentaDescripcion         = ""; 
+}
+
+load(){
+    this.http.get('http://localhost/Contador//bancos.php')
+    //this.http.get('./assets/php/retrieve-data.php')
+    .map(res => res.json())
+    .subscribe(data => 
+    {
+       this.bancos = data;
+       console.log("3",this.bancos.IdBanco);         
+    })
+} 
+// notifica con un toast 
+sendNotification(message)  : void
+{
+   let notification = this.toastCtrl.create({
+       message       : message,
+       duration      : 3000
+   });
+   notification.present();
+}
+
+
+}
+
+

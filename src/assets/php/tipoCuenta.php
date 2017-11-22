@@ -1,4 +1,4 @@
-<?php
+<?php session_start();
    header('Access-Control-Allow-Origin: *'); 
    
    // Define database connection parameters
@@ -22,7 +22,7 @@
 
    // Attempt to query database table and retrieve data  
    try {    
-      $stmt    = $pdo->query('SELECT id, nombre, apellido, email FROM Usuarios ORDER BY nombre ASC');
+      $stmt    = $pdo->query('SELECT id, nombre, descripcion FROM CuentasTipo ORDER BY id ASC');
       while($row  = $stmt->fetch(PDO::FETCH_OBJ))
       {
          // Assign each row of data to associative array

@@ -1,4 +1,4 @@
-<?php
+<?php session_start();
    header('Access-Control-Allow-Origin: *');
 
    // Define database connection parameters
@@ -31,18 +31,18 @@
       case "create":
 
          // Sanitise URL supplied values
-         $name       = filter_var($_REQUEST['name'], FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
-         $description   = filter_var($_REQUEST['description'], FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
+         $nombre       = filter_var($_REQUEST['nombre'], FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
+         $apellido   = filter_var($_REQUEST['apellido'], FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW);
 
          // Attempt to run PDO prepared statement
          try {
-            $sql  = "INSERT INTO technologies(name, description) VALUES(:name, :description)";
+            $sql  = "INSERT INTO Usuarios(nombre, apellido) VALUES(:nombre, :apellido)";
             $stmt    = $pdo->prepare($sql);
-            $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-            $stmt->bindParam(':description', $description, PDO::PARAM_STR);
+            $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+            $stmt->bindParam(':apellido', $apellido, PDO::PARAM_STR);
             $stmt->execute();
 
-            echo json_encode(array('message' => 'Congratulations the record ' . $name . ' was added to the database'));
+            echo json_encode(array('message' => 'se ha agregado ' . $nombre . ' a la base de datos'));
          }
          // Catch any errors in running the prepared statement
          catch(PDOException $e)
