@@ -4,11 +4,8 @@
             <button ion-button ion-only menuToggle>
               <ion-icon name = "menu"></ion-icon>
             </button>
-            <ion-buttons left> 
-              <button ion-button ion-only (click)="volver()">  
-                <ion-icon md="md-arrow-round-back"></ion-icon>
-              </button>
-            </ion-buttons>
+             
+                         
         </ion-buttons>
      <ion-title>{{ pageTitle }}</ion-title>
   </ion-navbar>
@@ -23,6 +20,11 @@
         <h2>Success!</h2>
         <p>Maybe you'd like to edit an existing entry or add a new record?</p>
         <p>Simply go back to the home page and select the option you want to pursue.</p>
+      </ion-item>
+    </div>
+    <div>
+      <ion-item>
+        <ion-label color="dark">Saldo : {{ saldo }}</ion-label> 
       </ion-item>
     </div>
     <div *ngIf="!hideForm">

@@ -34,10 +34,10 @@ export class CuentaPage {
   public pageTitle: string;
   // lee el id de la tabla
   public recordID: any = null;
-  // base de la direccion donde se encuentral los archivos PHP
+  /** base de la direccion donde se encuentral los archivos PHP */
   private baseURI: string = "http://localhost/Contador/";
   idHogar;
-  // Initialise module classes
+  /**Initializa modulo classes */
   constructor(public navCtrl: NavController,
     public http: Http,
     public NP: NavParams,
@@ -46,7 +46,7 @@ export class CuentaPage {
     public autenticarUsuario: AutenticarUsuario,
     public toastCtrl: ToastController,
     public modalCtrl: ModalController) {
-    // se crean las validaciones de los campos del formulario en el Html
+    /**se crean las validaciones de los campos del formulario en el Html */
     this.form = fb.group({
       "nombre": ["", Validators.required],
       "descripcion": [""],
@@ -61,7 +61,8 @@ export class CuentaPage {
     console.log("ionViewWillEnter CuentaPage ")
     this.tipoCuenta = this.autenticarUsuario.getTipoCuenta();
     //console.log ("cuentas id hogar",this.tipoCuenta);
-    this.tipo = this.navCtrl.getType();
+    //this.tipo= this.navCtrl.getType();
+    this.tipo= this.navCtrl.length();
     console.log("tipo: ", this.tipo);
     this.resetFields();
 
@@ -86,7 +87,7 @@ export class CuentaPage {
     this.navCtrl.pop();
   }
 
-  // se cargan los datos para llenar los campos en caso de listado de reistros
+  /**se cargan los datos para llenar los campos en caso de listado de reistros */
   selectEntry(item) {
     this.cuentaNombre = item.nombre
     this.cuentaDescripcion = item.descripcion;
@@ -110,13 +111,14 @@ export class CuentaPage {
     }
     return string;
   }
-
+/**compara los datos recibidos desde la pagina html y los datos en la base de satos para
+ * llenar el combobox
+ */
   compareTipo(t1, t2): boolean {
-
     //console.log ("comparar",t1,t2, t1==t2);
     return t1 && t2 ? t1 == t2 : t1 == t2;
   }
-  // crea un registro, envia los datos al archiivo  php 
+  /** crea un registro, envia los datos al archiivo  php*/ 
   //createEntry(nombre, numero, descripcion, idBancos, idHogares, idCuentasTipo)
   createEntry(nombre, numero, descripcion, idHogares, idCuentasTipo) {
     let body: string = "key=create&nombre=" + nombre + "&descripcion=" + descripcion + "&numero=" + numero + "&idHogares=" + idHogares + "&idCuentasTipo=" + idCuentasTipo,
@@ -127,7 +129,7 @@ export class CuentaPage {
     //console.log("cuenta body",body);
     this.http.post(url, body, options)
       .subscribe((data) => {
-        // confirma si se conecto con la base de datos
+        /**confirma si se conecto con la base de datos */
         if (data.status === 200) {
           //this.hideForm   = true;
           this.sendNotification(`el nombre: ${nombre} fue agregado`);
@@ -136,7 +138,7 @@ export class CuentaPage {
         }
         // si existe algun problema
         else {
-          this.sendNotification('Something went wrong!');
+          this.sendNotification('Existe un Error!');
           //this.navCtrl.push(CuentasPage);
           this.viewCtrl.dismiss();
         }
@@ -190,7 +192,7 @@ export class CuentaPage {
         }
       });
   }
-  // guarda los registros, manejando si son nuevos o editados
+  /**guarda los registros, manejando si son nuevos o editados */
   saveEntry() {
     let nombre: string = this.form.controls["nombre"].value,
       numero: string = this.form.controls["numero"].value,
@@ -208,7 +210,7 @@ export class CuentaPage {
       this.createEntry(nombre, numero, descripcion, idHogares, idCuentasTipo);
     }
   }
-  // limpia los campos del formulario
+  /**limpia los campos del formulario */
   resetFields(): void {
     this.cuentaNombre = "";
     this.cuentaNumero = "";
@@ -223,4 +225,3 @@ export class CuentaPage {
     notification.present();
   }
 }
-

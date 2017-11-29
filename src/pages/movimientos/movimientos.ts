@@ -15,6 +15,11 @@ export class MovimientosPage {
   idUsuario;
   idHogar;
   tipo;
+  saldo;
+  ingresos;
+  egresos;
+  nombreHogar;
+  
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public http: Http,
@@ -39,6 +44,15 @@ export class MovimientosPage {
     console.log("tipo: ", this.tipo);
     //this.idUsuario= this.autenticarUsuario.getUsuario();
     this.idHogar = this.autenticarUsuario.getHogar();
+    this.autenticarUsuario.obtenerSaldo(this.idHogar);
+    this.autenticarUsuario.obtenerIngresos(this.idHogar);
+    this.autenticarUsuario.obtenerEgresos(this.idHogar);
+    this.saldo=this.autenticarUsuario.getSaldo();
+    this.ingresos=this.autenticarUsuario.getIngresos();
+    this.egresos=this.autenticarUsuario.getEgresos();
+    this.nombreHogar= this.autenticarUsuario.getNombreHogar();
+    
+    
     //console.log("idUsuario",this.idUsuario,"idHogar ", this.idHogar)
     this.load(this.idHogar);
   }

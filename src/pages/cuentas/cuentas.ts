@@ -14,6 +14,11 @@ export class CuentasPage {
   idHogar;
   tipoCuenta=[];
   tipo;
+  saldo;
+  ingresos;
+  egresos;
+  nombreHogar;
+
   public items : any = [];
   private baseURI: string  = "http://localhost/Contador/";
   //public bancos: any = [];
@@ -23,13 +28,21 @@ export class CuentasPage {
               public http   : Http,
               public modalCtrl: ModalController){  }
   ionViewWillEnter(){
-    this.tipo= this.navCtrl.getType();
+    //this.tipo= this.navCtrl.getType();
+    this.tipo= this.navCtrl.length();
     console.log("tipo: ",this.tipo);
     this.idUsuario= this.autenticarUsuario.getUsuario();
     this.idHogar= this.autenticarUsuario.getHogar();
     this.tipoCuenta=this.autenticarUsuario.getTipoCuenta();
     //console.log ("cuentas id hogar",this.tipoCuenta);
-     this.load(this.idHogar);
+    this.autenticarUsuario.obtenerSaldo(this.idHogar);
+    this.autenticarUsuario.obtenerIngresos(this.idHogar);
+    this.autenticarUsuario.obtenerEgresos(this.idHogar);
+    this.saldo=this.autenticarUsuario.getSaldo();
+    this.ingresos=this.autenticarUsuario.getIngresos();
+    this.egresos=this.autenticarUsuario.getEgresos();
+    this.nombreHogar= this.autenticarUsuario.getNombreHogar();
+    this.load(this.idHogar);
   }
   volver(){
     this.viewCtrl.dismiss();
@@ -64,7 +77,7 @@ export class CuentasPage {
     
      this.navCtrl.push(CuentaPage,{'idHogar': this.idHogar});
   }
-// muesta un registo completo de la cuenta en pantalla abre pagina cuanta
+/**muesta un registo completo de la cuenta en pantalla abre pagina cuanta */
   viewEntry(param)
   {
     if(this.tipo!=='tab'){
@@ -72,7 +85,7 @@ export class CuentasPage {
     }
      this.navCtrl.push(CuentaPage, param);
   }
-  // muesta la pantalla cuenta para proceder a eliminar un registro especifico
+  /**muesta la pantalla cuenta para proceder a eliminar un registro especifico */
   deleteEntry(param){
     if(this.tipo!=='tab'){
       this.navCtrl.pop();

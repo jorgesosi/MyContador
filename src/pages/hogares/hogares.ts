@@ -12,6 +12,7 @@ import { HogarPage } from './../hogar/hogar';
 })
 export class HogaresPage {
   tipo;
+  clasUser;
   public items: any = [];
   public idUsuario;
   private baseURI: string = "http://localhost/Contador/";
@@ -25,6 +26,7 @@ export class HogaresPage {
     this.tipo = this.navCtrl.getType();
     console.log("tipo: ", this.tipo);
     this.idUsuario = this.autenticarUsuario.getUsuario();
+    this.clasUser=this.autenticarUsuario.getClaseUsuario();
     this.load(this.idUsuario);
   }
   load(id: number) {
@@ -45,10 +47,10 @@ export class HogaresPage {
   }
   // Allow navigation to the AddTechnology page for creating a new entry
   addEntry() {
-    // this.navCtrl.push('HogarPage');
-    let modal = this.modalCtrl.create(
+    this.navCtrl.push('HogarPage');
+    /*let modal = this.modalCtrl.create(
       HogarPage);
-    modal.present();
+    modal.present();*/
   }
   seleccionar(param) {
     this.autenticarUsuario.cargarHogar(param)

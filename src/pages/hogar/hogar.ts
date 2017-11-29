@@ -69,11 +69,9 @@ export class HogarPage {
     this.hogarNombre = item.nombre
     this.recordID = item.id;
   }
-  // Save a new record that has been added to the page's HTML form
-  // Use angular's http post method to submit the record data 
-  // to our remote PHP script (note the body variable we have created which 
-  // supplies a variable of key with a value of create followed by the key/value pairs
-  // for the record data
+  /** guarda un nuevo registo recibidp  HTML form
+  // usa el metodo angular http post para enviar el dato
+  // */
   createEntry(nombre, idUser) {
     let body: string = "key=create&nombre=" + nombre + "&idUsuarios=" + idUser,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -83,7 +81,9 @@ export class HogarPage {
     //console.log("hogar:",body)
     this.http.post(url, body, options)
       .subscribe((data) => {
-        // If the request was successful notify the user
+        /** recibe el dato desde php si el status es 200 quere decier que se comunico con la base de 
+         * datos
+        */
         if (data.status === 200) {
           //this.hideForm   = true;
           this.sendNotification(`el nombre: ${nombre} fue agregado`);
@@ -91,16 +91,14 @@ export class HogarPage {
         }
         // Otherwise let 'em know anyway
         else {
-          this.sendNotification('Something went wrong!');
+          this.sendNotification('Existe un ERROR!');
           this.navCtrl.push(HogaresPage);
         }
       });
   }
-  // Update an existing record that has been edited in the page's HTML form
-  // Use angular's http post method to submit the record data 
-  // to our remote PHP script (note the body variable we have created which 
-  // supplies a variable of key with a value of update followed by the key/value pairs
-  // for the record data
+  /**Se realizan las modificaciones se envia el parametro nombre de hogar a ser el id lo recibe desde
+   *
+   */
   updateEntry(nombre) {
     let body: string = "key=update&nombre=" + nombre + "&id=" + this.recordID,
       type: string = "application/x-www-form-urlencoded; charset=UTF-8",
@@ -122,11 +120,9 @@ export class HogarPage {
         }
       });
   }
-  // Remove an existing record that has been selected in the page's HTML form
-  // Use angular's http post method to submit the record data 
-  // to our remote PHP script (note the body variable we have created which 
-  // supplies a variable of key with a value of delete followed by the key/value pairs
-  // for the record ID we want to remove from the remote database
+  /**Eliminar un registro existente que ha sido seleccionado en el formulario HTML de la página
+   * 
+   */
   deleteEntry() {
     let nombre: string = this.form.controls["nombre"].value,
       body: string = "key=delete&id=" + this.recordID,
@@ -150,9 +146,7 @@ export class HogarPage {
         }
       });
   }
-  // Handle data submitted from the page's HTML form
-  // Determine whether we are adding a new record or amending an
-  // existing record
+  /**guarda la informacion dependiendo si es una modificacion o un registro nuevo */
   saveEntry() {
     let nombre: string = this.form.controls["nombre"].value;
     let idUser: number = this.idUsuario
@@ -163,13 +157,14 @@ export class HogarPage {
       this.createEntry(nombre, idUser);
     }
   }
-  // Clear values in the page's HTML form fields
+  /**limpia los valores en el formulario HTML */
   resetFields(): void {
     this.hogarNombre = "";
 
   }
-  // Manage notifying the user of the outcome
-  // of remote operations
+  /**se mustran los mansajes por pantalla se recibe el mensaje por 
+   * parametro
+   */
   sendNotification(message): void {
     let notification = this.toastCtrl.create({
       message: message,

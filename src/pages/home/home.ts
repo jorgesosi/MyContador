@@ -8,6 +8,7 @@ import { MovimientosPage } from '../movimientos/movimientos';
 import { MovimientoPage } from '../movimiento/movimiento';
 import { CuentasPage } from './../cuentas/cuentas';
 import { HogarPage } from '../hogar/hogar';
+import { TabsPage } from '../tabs/tabs';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -34,19 +35,27 @@ ionViewDidLoad()
    //ionViewWillEnter()
    {
    // this.tabBarElement.style.display = 'none';
+   /** se toma el id del usuario desde autenticarUsuario y se guarda
+    * el tipo de cuenta y el tipo de movimieto 
+    *     
+   */
     this.idUsuario=Number(this.autenticarUsuario.getUsuario());
     this.autenticarUsuario.obtenerTipoCuenta();
     this.autenticarUsuario.obtenerTipoMovimiento();
     //console.log("idUsuario",this.idUsuario);
     this.clasUser=this.autenticarUsuario.getClaseUsuario();
     //console.log("home",this.clasUser)
+    /** 
+     * se llama a la funcion load 
+    */
     this.load(this.idUsuario);
    }
    //ionViewWillEnter() { this.tabBarElement.style.display = 'none'; } 
    //ionViewWillLeave() { this.tabBarElement.style.display = 'flex'; }
-   // Retrieve the JSON encoded data from the remote server
-   // Using Angular's Http class and an Observable - then
-   // assign this to the items array for rendering to the HTML template
+     
+   /**la funcion load recive parametro id de usuario para enviarlo por
+    * metodo post a la pagina php Hogares.php
+    */
    load(id:number)
    {
      //console.log("load() home");
@@ -56,6 +65,10 @@ ionViewDidLoad()
     options    : any     = new RequestOptions({ headers: headers }),
     url        : any     = this.baseURI + "hogares.php";
 //console.log ("body", body);
+
+/**el metodo post envia el id de usuario para recibir los hogares que pertenecen a
+ * usuario determinado
+ */
 this.http.post(url, body, options)
     //this.http.get('./assets/php/retrieve-data.php')
     .map(res => res.json())
@@ -65,31 +78,40 @@ this.http.post(url, body, options)
        //console.log("data home",data) ;       
     });
  }
-  // Allow navigation to the AddTechnology page for creating a new entry
+  /**permite la nevegacion hacia la pagina hogar para crear un nuevo hogar
+   * esta funcionalidad se quito desde el html pero no se borro la funcion por si se 
+   * vuelve a crear  la funcion 
+   */
    addEntry()
    {
-      //this.navCtrl.push('HogarPage');
-      let modal = this.modalCtrl.create( 
-        HogarPage);
-      modal.present();
-   }
-   // Allow navigation to the AddTechnology page for amending an existing entry
-   // (We supply the actual record to be amended, as this method's parameter, 
-   // to the AddTechnology page
-   viewEntry(param)
-   {
-      this.navCtrl.push('AddTechnology', param);
-   }
+    this.navCtrl.push('HogarPage');
+    }
+   /**permite la seleccion de un hogar especifico
+    * se recibe desde el html el parameto  para cargar un hogar especifico
+     */
+   
    seleccionar(param)
    {
-     this.autenticarUsuario.cargarHogar(param)
+     /**carga el hogar con el parametro recibido en param
+      * una vez cargad el hogar toma el id del hogar para navegar a
+      la pagina cuentas y mostrar las cuentas asociadas a el hogar 
+      */
+      console.log("seleccionar", param.id);
+      this.navCtrl.setRoot(TabsPage);
+     this.autenticarUsuario.cargarHogar(param.id);
+     this.autenticarUsuario.cargarNombreHogar(param.nombre);
      let idhogar =this.autenticarUsuario.getHogar();
+     this.autenticarUsuario.obtenerSaldo(idhogar);
+     this.autenticarUsuario.obtenerIngresos(idhogar);
+     this.autenticarUsuario.obtenerEgresos(idhogar);
      //console.log("idHogar: ", idhogar);
      //console.log("idu: ", param);
-     //this.navCtrl.push(CuentasPage,{'idUser':this.idUsuario, 'idHogar':idhogar});
-      let modal = this.modalCtrl.create( 
+     
+     this.navCtrl.push(CuentasPage,{'idUser':this.idUsuario, 'idHogar':idhogar});
+     
+      /*let modal = this.modalCtrl.create( 
         CuentasPage,{'idUser':this.idUsuario, 'idHogar':idhogar
       });
-      modal.present();
+      modal.present();*/
    }
 }

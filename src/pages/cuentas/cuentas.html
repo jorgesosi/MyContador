@@ -2,15 +2,36 @@
 <ion-header>
   <ion-navbar>
     <ion-buttons left> 
-        <button ion-button ion-only *ngIf="tipo == 'portal'"(click)="volver()">  
-          <ion-icon md="md-arrow-round-back"></ion-icon>
-        </button>
+      <button ion-button ion-only menuToggle>
+        <ion-icon name = "menu"></ion-icon>
+      </button>
       </ion-buttons>
-  <ion-title>Cuentas</ion-title>
+  <ion-title>Cuentas de {{nombreHogar}}</ion-title>
 </ion-navbar>
 </ion-header>
 
 <ion-content padding>
+    <ion-grid>
+        <ion-row>
+          <ion-col col-4>
+              <ion-item color="primary" >
+                  <label  > {{ saldo }}</label> 
+                </ion-item>
+          </ion-col>
+          <ion-col col-4>
+              <ion-item color="secondary">              
+                  <label  > {{ ingresos }}</label> 
+                </ion-item>
+          </ion-col>
+          <ion-col col-4>
+              <ion-item color="danger">
+                  <label  > {{ egresos }}</label> 
+                </ion-item>
+          </ion-col>
+        </ion-row>
+    </ion-grid>
+      
+    
  
   <ion-item *ngFor="let item of items">
      <h2>{{ item.id}} {{ item.nombre }} {{ item.numero}} 

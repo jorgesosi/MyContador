@@ -3,6 +3,7 @@ import { NavController, NavParams, ToastController, ViewController, ModalControl
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AutenticarUsuario } from '../../providers/autenticar-usuario';
+import { MovimientosPage } from '../movimientos/movimientos';
 @Component({
   selector: 'page-movimiento',
   templateUrl: 'movimiento.html',
@@ -172,6 +173,29 @@ export class MovimientoPage {
           this.sendNotification('Something went wrong!');
           //this.navCtrl.push(CuentasPage);
           this.viewCtrl.dismiss();
+        }
+      });
+  }
+
+  deleteEntry() {
+    let body: string = "key=delete&id=" + this.recordID,
+      type: string = "application/x-www-form-urlencoded; charset=UTF-8",
+      headers: any = new Headers({ 'Content-Type': type }),
+      options: any = new RequestOptions({ headers: headers }),
+      url: any = this.baseURI + "eliminar-movimiento.php";
+    console.log("movimiento body",body);
+    this.http.post(url, body, options)
+      .subscribe(data => {
+        // If the request was successful notify the user
+        if (data.status === 200) {
+          //this.hideForm     = true;
+          this.sendNotification(`se elimino correctamente: ${this.recordID} `);
+          this.navCtrl.push(MovimientosPage);
+        }
+        // Otherwise let 'em know anyway
+        else {
+          this.sendNotification('¡Aldo no funciono bien!');
+          this.navCtrl.push(MovimientosPage);
         }
       });
   }

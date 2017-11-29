@@ -66,14 +66,9 @@ export class IniciarsesionPage {
     this.iniciarSesion(email, contrasenia);
   }
   iniciarSesion(email, contrasenia){
-  /* this.promiseUsuario = this.autenticarUsuario.iniciarSesion(email, contrasenia)
-   this.promiseUsuario.then(
-     usuar => {
-       this.usuario=usuar  ;
-     console.log("usuar",usuar[0]);
-     console.log("iniciar",this.usuario[0]);}
-   );
-   console.log("fuera",this.usuario);*/
+  /* la fucion recibe los datos de email y contraseña 
+  los envia a la pagian iniciar php para que sean chequeados  por la base de
+  datos para poder asi ingresar al sistema*/
     let body    : string = "key=iniciar&email=" + email + "&contrasenia="+ contrasenia,
     type        : string = "application/x-www-form-urlencoded; charset=UTF-8",
     headers     : any     = new Headers({ 'Content-Type': type}),
@@ -88,17 +83,42 @@ export class IniciarsesionPage {
       //if(this.items._body !== "[]" ){
      if(this.items.length == 1 ){
             //this.hideForm  =  true;
+            /*
+            los datos recibidos desde iniciar.php son tomado
+            si la longitud del item recibido procesa los datos
+           guarda los datos recibidos(items) en usuario
+            */
             this.usuario=this.items;
+            /**el dato en la posicion 0 del array es el id 
+             * con este dato llama a la funcion cargar en la pagina autenticar usuario 
+             * con esta queda el array guardado para ser utilizado en el resto de la 
+             * aplicacion
+             */
             this.autenticarUsuario.cargarUsuario(this.usuario[0].id)
             this.autenticarUsuario.cargarClaseUsuario(this.usuario)
             console.log ("Usuario",this.usuario[0].id)
+            /**
+             * se envia el mensaje a la funcion send notificacion
+             */
             this.sendNotification(`Bienvenido`);
-            this.navCtrl.push(TabsPage);
-            //this.navCtrl.push(HomePage);
+            /**
+             * se llama a la pagian tabs para que se muestene los iconos tabs al pie
+             * de las vistas de la app
+             */
+            //this.navCtrl.push(TabsPage);
+            this.navCtrl.push(HomePage);
+            /**
+             * llama a la funcion cambiar estado mostrar otras opsiones en el 
+             * menu lateral. todabia tiene falla hay que pulsaar dos veces el icono
+             * para que cambie
+             */
             this.autenticarUsuario.cambiarEstado(true);//cambia el estado de usuario a conectado
         }
         else{
-            this.sendNotification('Something went wrong!');
+          /**
+           * envia mensaje de error
+           */
+            this.sendNotification('Datos de ingreso incorrectos!');
             //this.navCtrl.push(IniciarsesionPage);
         }
     });
@@ -111,6 +131,10 @@ export class IniciarsesionPage {
     });*/
   }
   sendNotification(message)  : void{
+    /**
+     * muestra mensaje en la parte inferior 
+     * recibe por parametros el mensaje a ser mostrado por pantalla
+     */
     let notification = this.toastCtrl.create({
          message       : message,
          duration      : 3000
