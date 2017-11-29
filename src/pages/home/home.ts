@@ -50,6 +50,7 @@ ionViewDidLoad()
     this.length=this.navCtrl.length();
     console.log("home tipo : ",this.tipo);
     console.log("homeLength",this.length);
+    this.autenticarUsuario.cambiarEstado(true);
     /** 
      * se llama a la funcion load 
     */
@@ -102,7 +103,7 @@ this.http.post(url, body, options)
       la pagina cuentas y mostrar las cuentas asociadas a el hogar 
       */
       console.log("seleccionar", param.id);
-      this.navCtrl.setRoot(TabsPage);
+      //this.navCtrl.setRoot(TabsPage);
      this.autenticarUsuario.cargarHogar(param.id);
      this.autenticarUsuario.cargarNombreHogar(param.nombre);
      let idhogar =this.autenticarUsuario.getHogar();

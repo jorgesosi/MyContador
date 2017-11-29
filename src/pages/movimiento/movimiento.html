@@ -31,9 +31,10 @@
           <ion-item-group>
             <ion-item>
               <ion-label color="dark">Fecha</ion-label>              
-              <ion-input type="text" placeholder="fecha..." 
+             <!-- <ion-input type="text" placeholder="AAAA-MM-DD..." 
                   formControlName="fecha"[(ngModel)]="movimientoFecha">
-              </ion-input>
+              </ion-input>-->
+              <ion-datetime displayFormat="YYYY-MM-DD" formControlName="fecha"[(ngModel)]="movimientoFecha"></ion-datetime>
             </ion-item>
           </ion-item-group>
           <ion-item-group>
