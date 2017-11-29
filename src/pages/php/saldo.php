@@ -1,4 +1,4 @@
-<?php
+<?php session_start();
    header('Access-Control-Allow-Origin: *'); 
    
    // Define database connection parameters
@@ -17,13 +17,29 @@
                        );
    // Create a PDO instance (connect to the database)
    $pdo  = new PDO($dsn, $un, $pwd, $opt);
+   
+   $key  = strip_tags($_REQUEST['key']);
    $data = array();
 
-
+   $id     = filter_var($_REQUEST['id'], FILTER_SANITIZE_NUMBER_INT);
    // Attempt to query database table and retrieve data  
    try {    
-      $stmt    = $pdo->query('SELECT id, nombre, apellido, email FROM Usuarios ORDER BY nombre ASC');
-      while($row  = $stmt->fetch(PDO::FETCH_OBJ))
+     // $stmt    = $pdo->query('SELECT id, nombre, numero, descripcion, idUsuarios, idCuentasTipo FROM Cuentas ORDER BY id ASC');
+     //$sql  =('SELECT id, nombre, numero, descripcion, idHogares, idCuentasTipo FROM Cuentas WHERE idHogares = :id  ');
+     $sql = (' SELECT sum(if(T1.idMovimientosTipo=1,1,-1)*T1.importe)as saldo
+     FROM Movimientos as T1
+     inner join Cuentas as T2
+     on T1.idCuentas = T2.id
+     inner join Hogares as T3
+     on T2.idHogares = T3.id
+     inner join MovimientosTipo as T4
+     on T1.idMovimientosTipo = T4.id
+     where T3.id = :id
+     ');
+     $stmt =  $pdo->prepare($sql);
+     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+     $stmt->execute();
+     while($row  = $stmt->fetch(PDO::FETCH_OBJ))
       {
          // Assign each row of data to associative array
          $data[] = $row;

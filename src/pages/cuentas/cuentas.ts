@@ -14,6 +14,7 @@ export class CuentasPage {
   idHogar;
   tipoCuenta=[];
   tipo;
+  length;
   saldo;
   ingresos;
   egresos;
@@ -29,8 +30,10 @@ export class CuentasPage {
               public modalCtrl: ModalController){  }
   ionViewWillEnter(){
     //this.tipo= this.navCtrl.getType();
-    this.tipo= this.navCtrl.length();
-    console.log("tipo: ",this.tipo);
+    this.tipo= this.navCtrl.getType();
+    this.length=this.navCtrl.length();
+    console.log("cuentas tipo : ",this.tipo);
+    console.log("cuentas Length",this.length);
     this.idUsuario= this.autenticarUsuario.getUsuario();
     this.idHogar= this.autenticarUsuario.getHogar();
     this.tipoCuenta=this.autenticarUsuario.getTipoCuenta();

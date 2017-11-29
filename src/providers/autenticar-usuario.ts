@@ -20,7 +20,7 @@ export class AutenticarUsuario {
   egreso: number;
   private baseURI: string = "http://localhost/Contador/";
   constructor(public http: Http) {
-    console.log('Hello AutenticarUsuario Provider');
+    //console.log('Hello AutenticarUsuario Provider');
     this.usuarioEstaConectado = false;
   }/** */
   iniciarSesion(email, contrasenia): Promise<Usuario[]> {
@@ -44,9 +44,9 @@ export class AutenticarUsuario {
       .subscribe(data => {
         let items = data;
         this.cargarCuentaTipo(items);
-        console.log("tipo cuenta", items);
+        //console.log("tipo cuenta", items);
         /*if(data!==''){
-         console.log("data cuentas",data);
+         //console.log("data cuentas",data);
          this.items = data; 
        }else{
          this.items=[];
@@ -94,7 +94,7 @@ export class AutenticarUsuario {
   }
   private extractData(res: Response) {
     let body = res.json();
-    console.log(body)
+    //console.log(body)
     return body;
   }
   /**carga en una variable los datos de la funcion
@@ -121,7 +121,7 @@ export class AutenticarUsuario {
     return this.idHogar;
   }
   cargarNombreHogar(nombre: string) {
-    console.log("nombreHogar", nombre);
+    //console.log("nombreHogar", nombre);
     this.nombreHogar = nombre;
   }
   getNombreHogar() {
@@ -195,7 +195,7 @@ export class AutenticarUsuario {
    */
   cargarSaldo(saldo: number) {
     this.saldo = saldo
-    console.log("saldo", saldo);
+    //console.log("saldo", saldo);
   }
   /**permite llamar a la variable en cualquer momento, si no se realiza un obtener
    * o cargar dato retorna el ultimo dato guardado
@@ -215,7 +215,7 @@ export class AutenticarUsuario {
       .map(res => res.json())
       .subscribe(data => {
         let items = data;
-        console.log("ingreso", items);
+        //console.log("ingreso", items);
         this.cargarIngresos(items[0].ingresos);
       });
   }
@@ -225,7 +225,7 @@ export class AutenticarUsuario {
    */
   cargarIngresos(ingreso: number) {
     this.ingreso = ingreso;
-    console.log("ingreso", ingreso);
+    //console.log("ingreso", ingreso);
   }
   /**permite llamar a la variable en cualquer momento, si no se realiza un obtener
    * o cargar dato retorna el ultimo dato guardado
@@ -245,7 +245,7 @@ export class AutenticarUsuario {
       .map(res => res.json())
       .subscribe(data => {
         let items = data;
-        console.log("egresos", items);
+        //console.log("egresos", items);
         this.cargarEgresos(items[0].egresos);
       });
   }
@@ -255,7 +255,7 @@ export class AutenticarUsuario {
    */
   cargarEgresos(egreso: number) {
     this.egreso = egreso;
-    console.log("egreso", egreso);
+    //console.log("egreso", egreso);
   }
   /**permite llamar a la variable en cualquer momento, si no se realiza un obtener
    * o cargar dato retorna el ultimo dato guardado

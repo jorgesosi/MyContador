@@ -16,7 +16,9 @@ import { TabsPage } from '../tabs/tabs';
 export class HomePage {
   public  usuario:Usuario;
   private baseURI               : string  = "http://localhost/Contador/";
-  idUsuario
+  idUsuario;
+  tipo;
+  length;
   tabBarElement:any;//oculta la tab bar en sub pages
   public clasUser:any=[]
    public items : any = [];
@@ -44,7 +46,10 @@ ionViewDidLoad()
     this.autenticarUsuario.obtenerTipoMovimiento();
     //console.log("idUsuario",this.idUsuario);
     this.clasUser=this.autenticarUsuario.getClaseUsuario();
-    //console.log("home",this.clasUser)
+    this.tipo= this.navCtrl.getType();
+    this.length=this.navCtrl.length();
+    console.log("home tipo : ",this.tipo);
+    console.log("homeLength",this.length);
     /** 
      * se llama a la funcion load 
     */

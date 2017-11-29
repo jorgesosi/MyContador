@@ -14,6 +14,8 @@ import { AutenticarUsuario } from './../../providers/autenticar-usuario';
   templateUrl: 'iniciarsesion.html',
 })
 export class IniciarsesionPage {
+  tipo;
+  length;
   usuarioEstaConectado = false;
   promiseUsuario: Promise<Usuario[]>
   public usuario:Usuario[];
@@ -48,6 +50,10 @@ export class IniciarsesionPage {
   ionViewWillEnter() {
     //this.load();
     console.log('ionViewWillEnter Iniciarsesion');
+    this.tipo= this.navCtrl.getType();
+    this.length=this.navCtrl.length();
+    console.log("home tipo : ",this.tipo);
+    console.log("homeLength",this.length);
   }
   registrarUsuario(){
     this.navCtrl.push('UsuarioPage');
@@ -101,19 +107,21 @@ export class IniciarsesionPage {
              * se envia el mensaje a la funcion send notificacion
              */
             this.sendNotification(`Bienvenido`);
-            /**
-             * se llama a la pagian tabs para que se muestene los iconos tabs al pie
-             * de las vistas de la app
-             */
-            //this.navCtrl.push(TabsPage);
-            this.navCtrl.push(HomePage);
-            /**
+            
+
+             /**
              * llama a la funcion cambiar estado mostrar otras opsiones en el 
              * menu lateral. todabia tiene falla hay que pulsaar dos veces el icono
              * para que cambie
              */
             this.autenticarUsuario.cambiarEstado(true);//cambia el estado de usuario a conectado
-        }
+            /**
+             * se llama a la pagian tabs para que se muestene los iconos tabs al pie
+             * de las vistas de la app
+             */
+            this.navCtrl.push(TabsPage);
+            //this.navCtrl.push(HomePage);
+           }
         else{
           /**
            * envia mensaje de error
