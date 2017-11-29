@@ -104,17 +104,17 @@ export class IniciarsesionPage {
             this.autenticarUsuario.cargarClaseUsuario(this.usuario)
             console.log ("Usuario",this.usuario[0].id)
             /**
-             * se envia el mensaje a la funcion send notificacion
-             */
-            this.sendNotification(`Bienvenido`);
-            
-
-             /**
              * llama a la funcion cambiar estado mostrar otras opsiones en el 
              * menu lateral. todabia tiene falla hay que pulsaar dos veces el icono
              * para que cambie
              */
             this.autenticarUsuario.cambiarEstado(true);//cambia el estado de usuario a conectado
+            
+            /**
+             * se envia el mensaje a la funcion send notificacion
+             */
+            
+            this.sendNotification(`Bienvenido`);
             /**
              * se llama a la pagian tabs para que se muestene los iconos tabs al pie
              * de las vistas de la app

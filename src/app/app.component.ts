@@ -53,11 +53,6 @@ export class MyApp {
     console.log("open", this.conectado);
   }
 
-  menuDraged() {
-    this.conectado = this.autenticarUsuario.estaConectado();
-    console.log("drag", this.conectado);
-  }
-
   irPagina(pagina) {
     //this.contenido.setRoot(pagina);
     this.contenido.setRoot(pagina);
